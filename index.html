@@ -2,236 +2,77 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Game Timer</title>
-    
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/192/FF0000/FFFFFF?text=G">
-
+    <title>Game App</title>
     <style>
-        :root {
-            --bg-mafia: #121212;
-            --accent-mafia: #d90429;
-            --bg-mafia2: #0b132b;
-            --accent-mafia2: #f0a500;
-            --bg-among: #1a0633;
-            --accent-among: #39ff14;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding-top: env(safe-area-inset-top);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            color: white;
-            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Навигация как в iOS */
-        .tabs {
-            display: flex;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 4px;
-            border-radius: 12px;
-            margin-top: 20px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 9px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            background: transparent;
-            color: #888;
-            transition: 0.3s;
-        }
-
-        .tab-btn.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .container {
-            width: 90%;
-            margin-top: 20px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        h2 { font-size: 28px; margin: 0; letter-spacing: -1px; }
-
-        .add-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .time-list { list-style: none; padding: 0; width: 100%; }
-
-        .time-item {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 12px;
-            padding: 18px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .time-display { flex-grow: 1; font-size: 18px; font-weight: 500; }
-
-        /* Кастомный чекбокс */
-        input[type="checkbox"] {
-            appearance: none;
-            width: 26px;
-            height: 26px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            margin-right: 15px;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        input[type="checkbox"]:checked {
-            background: white;
-            border-color: white;
-        }
-
-        .delete-btn {
-            background: rgba(255, 77, 77, 0.1);
-            border: none;
-            color: #ff4d4d;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        /* Темы */
-        body.mafia-theme { background-color: var(--bg-mafia); }
-        body.mafia2-theme { background-color: var(--bg-mafia2); }
-        body.among-theme { background-color: var(--bg-among); }
-
-        .mafia-theme .add-btn { background: var(--accent-mafia); }
-        .mafia2-theme .add-btn { background: var(--accent-mafia2); }
-        .among-theme .add-btn { background: var(--accent-among); }
+        /* Весь твой дизайн остается тут */
+        :root { --mafia: #ff3b30; --mafia2: #ffcc00; --among: #34c759; }
+        body { font-family: -apple-system, sans-serif; background: #000; color: #fff; margin: 0; padding: 50px 20px; transition: 0.5s; }
+        body.mafia { background: #1a0505; --accent: var(--mafia); }
+        body.mafia2 { background: #05101a; --accent: var(--mafia2); }
+        body.among { background: #051a0a; --accent: var(--among); }
+        .tabs { display: flex; gap: 8px; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 12px; margin-bottom: 25px; }
+        .tabs button { flex: 1; padding: 12px; border: none; border-radius: 9px; background: none; color: #888; font-weight: 600; }
+        .tabs button.active { background: rgba(255,255,255,0.2); color: #fff; }
+        .item { background: rgba(255,255,255,0.06); padding: 15px; border-radius: 14px; display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+        .add-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--accent); color: #fff; font-size: 28px; }
     </style>
 </head>
-<body class="mafia-theme">
-
+<body class="mafia">
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('mafia')">Mafia</button>
-        <button class="tab-btn" onclick="switchTab('mafia2')">Mafia 2.0</button>
-        <button class="tab-btn" onclick="switchTab('among')">Among</button>
+        <button onclick="setTab('mafia')" id="b-mafia" class="active">Mafia</button>
+        <button onclick="setTab('mafia2')" id="b-mafia2">Mafia 2.0</button>
+        <button onclick="setTab('among')" id="b-among">Among</button>
     </div>
-
-    <div class="container">
-        <div class="header">
-            <h2 id="tab-title">Mafia</h2>
-            <button class="add-btn" onclick="addNewTime()">+</button>
-        </div>
-        <ul id="time-list" class="time-list"></ul>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1 id="title">Mafia</h1>
+        <button class="add-btn" onclick="add()">+</button>
     </div>
+    <div id="list"></div>
 
     <script>
-        let currentTab = 'mafia';
-        
-        // Загрузка данных из памяти телефона
-        let storage = JSON.parse(localStorage.getItem('gameData')) || {
-            mafia: [],
-            mafia2: [],
-            among: []
-        };
+        // ЛОГИКА СОХРАНЕНИЯ
+        let cur = 'mafia';
+        let data = JSON.parse(localStorage.getItem('games_db')) || { mafia:[], mafia2:[], among:[] };
 
-        function saveData() {
-            localStorage.setItem('gameData', JSON.stringify(storage));
+        function setTab(t) {
+            cur = t;
+            document.body.className = t;
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            document.getElementById('b-'+t).classList.add('active');
+            render();
         }
 
-        function switchTab(tab) {
-            currentTab = tab;
-            document.body.className = tab + '-theme';
-            
-            const titles = {mafia: 'Mafia', mafia2: 'Mafia 2.0', among: 'Among'};
-            document.getElementById('tab-title').innerText = titles[tab];
-
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach((btn, index) => {
-                btn.classList.toggle('active', Object.keys(titles)[index] === tab);
-            });
-
-            renderList();
+        function add() {
+            let t = prompt("Время:");
+            if(t) { data[cur].push({id:Date.now(), t:t, d:false}); save(); }
         }
 
-        function addNewTime() {
-            const time = prompt("Введите время:");
-            if (time) {
-                storage[currentTab].push({ id: Date.now(), time: time, checked: false });
-                saveData();
-                renderList();
-            }
+        function save() {
+            localStorage.setItem('games_db', JSON.stringify(data));
+            render();
         }
 
-        function toggleCheck(id) {
-            const item = storage[currentTab].find(i => i.id === id);
-            if (item) {
-                item.checked = !item.checked;
-                saveData();
-            }
-        }
-
-        function deleteItem(id) {
-            storage[currentTab] = storage[currentTab].filter(i => i.id !== id);
-            saveData();
-            renderList();
-        }
-
-        function renderList() {
-            const listElement = document.getElementById('time-list');
-            listElement.innerHTML = '';
-
-            storage[currentTab].forEach(item => {
-                const li = document.createElement('li');
-                li.className = 'time-item';
-                li.innerHTML = `
-                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCheck(${item.id})">
-                    <span class="time-display" style="${item.checked ? 'text-decoration: line-through; opacity: 0.5' : ''}">${item.time}</span>
-                    <button class="delete-btn" onclick="deleteItem(${item.id})">✕</button>
-                `;
-                listElement.appendChild(li);
+        function render() {
+            const container = document.getElementById('list');
+            container.innerHTML = '';
+            data[cur].forEach(i => {
+                container.innerHTML += `<div class="item">
+                    <input type="checkbox" ${i.d?'checked':''} onclick="data['${cur}'].find(x=>x.id==${i.id}).d = !data['${cur}'].find(x=>x.id==${i.id}).d; save();">
+                    <span style="${i.d?'text-decoration:line-through;opacity:0.5':''}">${i.t}</span>
+                    <button style="background:none; border:none; color:red;" onclick="data['${cur}']=data['${cur}'].filter(x=>x.id!=${i.id}); save();">✕</button>
+                </div>`;
             });
         }
+        render();
 
-        // Service Worker для работы без интернета
+        // МАГИЯ ОФФЛАЙНА (Service Worker)
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'game-v1';
                 self.addEventListener('install', e => {
-                    e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
+                    e.waitUntil(caches.open('pwa-cache').then(cache => cache.addAll(['./', 'index.html'])));
                 });
                 self.addEventListener('fetch', e => {
                     e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
@@ -240,8 +81,6 @@
             const blob = new Blob([swCode], {type: 'application/javascript'});
             navigator.serviceWorker.register(URL.createObjectURL(blob));
         }
-
-        switchTab('mafia');
     </script>
 </body>
 </html>
